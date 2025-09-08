@@ -1,0 +1,21 @@
+<script type='text/javascript'>
+    function initAgentforceMessaging() {
+        try {
+            agentforce_messaging.settings.language = 'en_US';
+
+            agentforce_messaging.init(
+                '00Dxx00qnzV95CO', // orgId
+                'CWC',             // deployment
+                // LWR site endpoint
+                'https://orgfarm-eaf0c9eb1c.my.site-com.yv43g3w2ybob19da7zcz8.wc.crm.dev:6101/ESWCWC1754517327732',
+                {
+                    scrt2URL: 'http://orgfarm-eaf0c9eb1c.my.salesforce-scrt-com.yv43g3w2ybob19da7zcz8.wc.crm.dev'
+                }
+            );
+        } catch (err) {
+            console.error('Error loading Embedded Messaging: ', err);
+        }
+    };
+</script>
+<!-- LWR site endpoint - loads init.js --> 
+<script type='text/javascript' src='https://orgfarm-eaf0c9eb1c.my.site-com.yv43g3w2ybob19da7zcz8.wc.crm.dev:6101/ESWCWC1754517327732/assets/js/init.js' onload='initAgentforceMessaging()'></script>
