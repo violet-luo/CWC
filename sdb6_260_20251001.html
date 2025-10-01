@@ -1,0 +1,31 @@
+agent: sdb6, epic.out.26312d00a1a2@orgfarm.salesforce.com
+local: 260 3, epic.out.0db4e1421c6f@orgfarm.salesforce.com
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+</head>
+<body>
+	
+<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			agentforce_messaging.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			agentforce_messaging.init(
+				'00DSG00000ZPp81', // sdb6 org id
+				'CWC_Channel', // sdb6 deployment name
+				'https://orgfarm-d4670896ff.my.site-com.8h75iq0lni2a14yr524is2px.wa.crm.dev:6101/ESWCWC1759344551516',
+				{
+					scrt2URL: 'https://orgfarm-a6dbe5e898.test1.my.pc-rnd.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://orgfarm-d4670896ff.my.site-com.8h75iq0lni2a14yr524is2px.wa.crm.dev:6101/ESWCWC1759344551516/assets/js/init.js' onload='initEmbeddedMessaging()'></script>
+
+</body>
+</html>
