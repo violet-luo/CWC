@@ -4,18 +4,11 @@
 </head>
 <body>
 	
-<button id="chat-button" onclick="initEmbeddedMessaging()">Chat with us</button>
-
 <script type='text/javascript'>
 	function initEmbeddedMessaging() {
 		try {
-            // Check if the script is actually loaded yet
-            if (typeof agentforce_messaging === 'undefined') {
-                console.error('Messaging script not loaded yet.');
-                return;
-            }
+			agentforce_messaging.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
 
-			agentforce_messaging.settings.language = 'en_US'; 
 			agentforce_messaging.init(
 				'00DSB00000c9EE1',
 				'CWC_Channel',
@@ -29,5 +22,6 @@
 		}
 	};
 </script>
+<script type='text/javascript' src='https://orgfarm-1891360a20.my.site-com.0sndxlawuoa508hqkx9cb3b9d1m4.wa.crm.dev:6101/ESWCWC1768973993172/assets/js/init.js' onload='initEmbeddedMessaging()'></script>
 </body>
 </html>
