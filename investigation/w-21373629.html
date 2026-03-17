@@ -1,0 +1,27 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+</head>
+<body>
+	
+<script type='text/javascript'>
+	function initEmbeddedMessaging() {
+		try {
+			embeddedservice_bootstrap.settings.language = 'en_US'; // For example, enter 'en' or 'en-US'
+
+			embeddedservice_bootstrap.init(
+				'00DIi000000I33e',
+				'SDO_Messaging_for_Web',
+				'https://trailsignup-a72feac278a729.my.site.com/ESWSDOMessagingforWeb1767698842480',
+				{
+					scrt2URL: 'https://trailsignup-a72feac278a729.my.salesforce-scrt.com'
+				}
+			);
+		} catch (err) {
+			console.error('Error loading Embedded Messaging: ', err);
+		}
+	};
+</script>
+<script type='text/javascript' src='https://trailsignup-a72feac278a729.my.site.com/ESWSDOMessagingforWeb1767698842480/assets/js/bootstrap.min.js' onload='initEmbeddedMessaging()'></script>
+</body>
+</html>
