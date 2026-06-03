@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Channel Menu Two Items</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+</head>
+<body>
+  <h1>Channel Menu Two Items</h1>
+
+  <p style="font-family:monospace">
+    Test buttons (Call Channel Menu Native APIs):
+    <button onclick="embeddedservice_bootstrap.utilAPI.showChatButton()">showChatButton</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.hideChatButton()">hideChatButton</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.launchChat()">launchChat</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.minimizeChat()">minimizeChat</button>
+  </p>
+
+  <script type='text/javascript'>
+    // Native Menu API Wrappers
+    function callNativeShow() {
+        console.log("Executing native menu show...");
+        if (window.embedded_svc && window.embedded_svc.menu) {
+            // Native channel menu uses its own toggle or container controls
+            console.log("Native Menu Object active:", window.embedded_svc.menu);
+        }
+    }
+
+    function callNativeHide() {
+        console.log("Executing native menu hide...");
+    }
+  </script>
+
+  <script type='text/javascript' src='https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js'></script>
+  <script type='text/javascript'>
+    var initESW = function(gslbBaseURL) {
+      embedded_svc.menu.settings.devMode = true;
+      embedded_svc.menu.settings.scrt2BaseUrl = 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com';
+
+      embedded_svc.menu.init(
+        'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com',
+        'https://d.la11-test1-uswest2-core4.pc-aws.salesforceliveagent.com/chat',
+        gslbBaseURL,
+        '00DLT00000EtZpt',
+        'ECV2'
+      );
+    };
+
+    if (!window.embedded_svc || !window.embedded_svc.menu) {
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js');
+      s.onload = function() { initESW(null); };
+      document.body.appendChild(s);
+    } else {
+      initESW('https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com');
+    }
+  </script>
+
+  <script type='text/javascript'>
+    window.addEventListener('onEmbeddedMessagingChannelMenuVisibilityChanged', function(e) {
+      console.log('onEmbeddedMessagingChannelMenuVisibilityChanged:', e.detail);
+    });
+    window.addEventListener('onEmbeddedMessagingReady', function() {
+      console.log('onEmbeddedMessagingReady emitted');
+    });
+    window.addEventListener('onEmbeddedMessagingButtonCreated', function() {
+      console.log('onEmbeddedMessagingButtonCreated emitted');
+    });
+  </script>
+</body>
+</html>
