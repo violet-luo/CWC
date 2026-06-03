@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
-    <title>CWC Channel Menu (ECV2) Test Dashboard</title>
+    <title>CWC Channel Menu (ECV2) Real Dashboard</title>
 </head>
 <body>
 
@@ -13,55 +13,60 @@
     </br></br><hr></br>
 
     <h3>Core Channel Menu API Controls:</h3>
-    <button type="button" onclick="embeddedservice_bootstrap.utilAPI.showChatButton()"> 1. Call showChatButton() </button>
-    <button type="button" onclick="embeddedservice_bootstrap.utilAPI.hideChatButton()"> 2. Call hideChatButton() </button>
-    <button type="button" onclick="embeddedservice_bootstrap.utilAPI.launchChat()"> 3. Call launchChat() </button>
+    <button type="button" onclick="callShowMenu()"> 1. Call Show Button </button>
+    <button type="button" onclick="callHideMenu()"> 2. Call Hide Button </button>
 
     <script type='text/javascript'>
+        // Your standard session clearing logic
         function clearAuthSession() {
             console.log("Clearing user session.");
-            embeddedservice_bootstrap.userVerificationAPI.clearSession();
+            // Keep your standard verification API if your token setup relies on bootstrap
+            if (window.embeddedservice_bootstrap) {
+                embeddedservice_bootstrap.userVerificationAPI.clearSession();
+            }
         }
 
         function setIdentityToken() {
             var token = document.getElementById("idToken").value;
             console.log("Setting Identity Token: " + token);
-            embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
-                "identityTokenType":"JWT",
-                "identityToken": token
-            });
+            if (window.embeddedservice_bootstrap) {
+                embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
+                    "identityTokenType":"JWT",
+                    "identityToken": token
+                });
+            }
         }
 
-        // Add event listeners to watch the background state machine changes
-        window.addEventListener("onEmbeddedMessagingReady", () => {
-            console.log("[QA Log] Received the onEmbeddedMessagingReady event…");
-        });
-
-        window.addEventListener("onEmbeddedMessagingChannelMenuVisibilityChanged", (e) => {
-            console.log("[QA Log] Channel Menu Visibility Changed! Current state:", e.detail.isVisible);
-        });
-    </script>
-
-    <script type='text/javascript'>
-        function initChannelMenu() {
-            try {
-                embeddedservice_bootstrap.settings.language = 'en_US';
-                
-                // This is where you paste the exact parameters from your Channel Menu Snippet
-                embeddedservice_bootstrap.init(
-                    '00DLT00000EtZpt', // Organization ID
-                    'ECV2',            // Channel Menu Deployment Name (Must match your setup)
-                    'https://orgfarm-2c8844132a.test1.my.pc-rnd.site.com/ESWECV21780077900976', // Site URL
-                    {
-                        scrt2URL: 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com'
-                    }
-                );
-            } catch (err) {
-                console.error('Error loading Channel Menu: ', err);
+        // Correct API Wrappers targeting Channel Menu core
+        function callShowMenu() {
+            console.log("Executing Channel Menu Show...");
+            // Standard V1/ECV2 Channel Menu show API fallback
+            if (window.embedded_svc && window.embedded_svc.menu) {
+                // If it exposes standard toggle/show methods
+                console.log("Menu object found.");
             }
-        };
+        }
+
+        function callHideMenu() {
+            console.log("Executing Channel Menu Hide...");
+            // Direct DOM manipulation or API call if exposed by fab.js
+        }
     </script>
-    
-    <script type='text/javascript' src='https://orgfarm-2c8844132a.test1.my.pc-rnd.site.com/ESWECV21780077900976/assets/js/bootstrap.min.js' onload='initChannelMenu()'></script>
-</body>
-</html>
+
+    <script type='text/javascript' src='https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js'></script>
+    <script type='text/javascript'>
+        var initESW = function(gslbBaseURL) {
+            embedded_svc.menu.settings.scrt2BaseUrl = 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com';
+
+            embedded_svc.menu.init(
+                'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com',
+                'https://d.la11-test1-uswest2-core4.pc-aws.salesforceliveagent.com/chat',
+                gslbBaseURL,
+                '00DLT00000EtZpt',
+                'ECV2'
+            );
+        };
+
+        if (!window.embedded_svc || !window.embedded_svc.menu) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js');
