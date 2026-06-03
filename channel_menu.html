@@ -11,39 +11,40 @@
 
     </br></br><hr></br>
 
-    <h3>Core Visibility API Testing:</h3>
-    <button type="button" onclick="callShowButton()"> 1. Call showChatButton() </button>
+    <h3>Channel Layout & Interaction Testing:</h3>
+    <button type="button" onclick="callLaunchChat()"> 1. Call launchChat() (Verify Layering) </button>
     <button type="button" onclick="callHideButton()"> 2. Call hideChatButton() </button>
-    <button type="button" onclick="callLaunchChat()"> 3. Call launchChat() </button>
+    <button type="button" onclick="callShowButton()"> 3. Call showChatButton() </button>
 
     <script type='text/javascript'>
-        function clearAuthSession() {
-            console.log("Clearing user session.");
-            embeddedservice_bootstrap.userVerificationAPI.clearSession();
-        }
-
+        function clearAuthSession() { embeddedservice_bootstrap.userVerificationAPI.clearSession(); }
         function setIdentityToken() {
             var token = document.getElementById("idToken").value;
-            console.log("Setting Identity Token: " + token);
             embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
-                "identityTokenType":"JWT",
-                "identityToken": token
+                "identityTokenType":"JWT", "identityToken": token
             });
         }
 
-        function callShowButton() { embeddedservice_bootstrap.utilAPI.showChatButton(); }
-        function callHideButton() { embeddedservice_bootstrap.utilAPI.hideChatButton(); }
-        function callLaunchChat() { embeddedservice_bootstrap.utilAPI.launchChat(); }
+        // Test APIs
+        function callLaunchChat() {
+            console.log("Executing: utilAPI.launchChat()");
+            embeddedservice_bootstrap.utilAPI.launchChat();
+        }
+        function callHideButton() {
+            console.log("Executing: utilAPI.hideChatButton()");
+            embeddedservice_bootstrap.utilAPI.hideChatButton();
+        }
+        function callShowButton() {
+            console.log("Executing: utilAPI.showChatButton()");
+            embeddedservice_bootstrap.utilAPI.showChatButton();
+        }
 
-        // ==========================================
-        // NEW QA LOGGERS FOR BUSINESS HOURS TESTING
-        // ==========================================
+        // Event Listeners for Channel State Verification
         window.addEventListener("onEmbeddedMessagingReady", () => {
-            console.log("[QA Log] Received the onEmbeddedMessagingReady event.");
+            console.log("[QA Log] onEmbeddedMessagingReady emitted");
         });
-        
         window.addEventListener("onEmbeddedMessagingChannelMenuVisibilityChanged", (e) => {
-            console.log("[QA Log] Visibility Changed! Current State isVisible =", e.detail.isVisible);
+            console.log("[QA Log] Visibility Changed! isVisible =", e.detail.isVisible);
         });
     </script>
 
@@ -51,14 +52,11 @@
 		function initEmbeddedMessaging() {
 			try {
 				embeddedservice_bootstrap.settings.language = 'en_US';
-
 				embeddedservice_bootstrap.init(
 					'00DLT00000EtZpt',
 					'ECV2',
 					'https://orgfarm-2c8844132a.test1.my.pc-rnd.site.com/ESWECV21780077900976',
-					{
-						scrt2URL: 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com'
-					}
+					{ scrt2URL: 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com' }
 				);
 			} catch (err) {
 				console.error('Error loading Embedded Messaging: ', err);
