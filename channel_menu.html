@@ -70,3 +70,13 @@
         if (!window.embedded_svc || !window.embedded_svc.menu) {
             var s = document.createElement('script');
             s.setAttribute('src', 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js');
+            s.onload = function() {
+                initESW(null);
+            };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com');
+        }
+    </script>
+</body>
+</html>
