@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>hideChatButtonOnLoad</title>
+</head>
+<body>
+
+    <label for="idToken">Set identity token:</label><br>
+    <input type="text" id="idToken" name="idToken" size="50"><br>
+    <button type="button" onclick="setIdentityToken()">Confirm</button><br><br>
+    <button type="button" onclick="clearAuthSession()">Clear Authorization Session</button>
+
+    <br><br><hr><br>
+
+    <h3>Core Channel Menu API Controls:</h3>
+    <button onclick="callUtil('showChatButton')">showChatButton</button>
+    <button onclick="callUtil('hideChatButton')">hideChatButton</button>
+    <button onclick="callUtil('launchChat')">launchChat</button>
+    <button onclick="callUtil('minimizeChat')">minimizeChat</button>
+
+    <script type='text/javascript'>
+        function callUtil(method) {
+            if (!window.embeddedservice_bootstrap
+                || !embeddedservice_bootstrap.utilAPI
+                || typeof embeddedservice_bootstrap.utilAPI[method] !== "function") {
+                console.warn("embeddedservice_bootstrap.utilAPI." + method + " not ready yet.");
+                return;
+            }
+            return embeddedservice_bootstrap.utilAPI[method]();
+        }
+
+        function clearAuthSession() {
+            if (window.embeddedservice_bootstrap && embeddedservice_bootstrap.userVerificationAPI) {
+                embeddedservice_bootstrap.userVerificationAPI.clearSession();
+            }
+        }
+
+        function setIdentityToken() {
+            var token = document.getElementById("idToken").value;
+            if (window.embeddedservice_bootstrap && embeddedservice_bootstrap.userVerificationAPI) {
+                embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
+                    identityTokenType: "JWT",
+                    identityToken: token
+                });
+            }
+        }
+
+        window.addEventListener("onEmbeddedMessagingReady", function () {
+            console.log("[CWC] onEmbeddedMessagingReady fired.");
+        });
+        window.addEventListener("onEmbeddedMessagingChannelMenuVisibilityChanged", function (e) {
+            console.log("[CWC] channel-menu visibility change:", e.detail);
+        });
+    </script>
+
+    <script type='text/javascript' src='https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js'></script>
+    <script type='text/javascript'>
+        var initESW = function (gslbBaseURL) {
+            embedded_svc.menu.snippetSettings = embedded_svc.menu.snippetSettings || {};
+            embedded_svc.menu.snippetSettings.Live_Chat = {
+                settings: {
+                    hideChatButtonOnLoad: true
+                }
+            };
+
+            embedded_svc.menu.settings.scrt2BaseUrl = 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce-scrt.com';
+
+            embedded_svc.menu.init(
+                'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com',
+                'https://d.la11-test1-uswest2-core4.pc-aws.salesforceliveagent.com/chat',
+                gslbBaseURL,
+                '00DLT00000EtZpt',
+                'ECV2'
+            );
+        };
+
+        if (!window.embedded_svc || !window.embedded_svc.menu) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js');
+            s.onload = function () { initESW(null); };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://orgfarm-2c8844132a.test1.my.pc-rnd.salesforce.com');
+        }
+    </script>
+</body>
+</html>
