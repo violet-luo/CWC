@@ -1,0 +1,89 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <title>CWC Channel Menu One Item</title>
+</head>
+<body>
+
+    <label for="idToken">Set identity token:</label></br>
+    <input type="text" id="idToken" name="idToken" size="50"></br>
+    <button type="button" id="setIdentityToken" onclick="setIdentityToken()"> Confirm </button></br></br>
+    <button type="button" id="clearAuthBtn" onclick="clearAuthSession()"> Clear Authorization Session </button>
+
+    </br></br><hr></br>
+
+    <h3>Core Channel Menu API Controls:</h3>
+    <button onclick="embeddedservice_bootstrap.utilAPI.showChatButton()">showChatButton</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.hideChatButton()">hideChatButton</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.launchChat()">launchChat</button>
+    <button onclick="embeddedservice_bootstrap.utilAPI.minimizeChat()">minimizeChat</button>
+
+    <script type='text/javascript'>
+        // Your standard session clearing logic
+        function clearAuthSession() {
+            console.log("Clearing user session.");
+            // Keep your standard verification API if your token setup relies on bootstrap
+            if (window.embeddedservice_bootstrap) {
+                embeddedservice_bootstrap.userVerificationAPI.clearSession();
+            }
+        }
+
+        function setIdentityToken() {
+            var token = document.getElementById("idToken").value;
+            console.log("Setting Identity Token: " + token);
+            if (window.embeddedservice_bootstrap) {
+                embeddedservice_bootstrap.userVerificationAPI.setIdentityToken({
+                    "identityTokenType":"JWT",
+                    "identityToken": token
+                });
+            }
+        }
+
+        // Correct API Wrappers targeting Channel Menu core
+        function callShowMenu() {
+            console.log("Executing Channel Menu Show...");
+            // Standard V1/ECV2 Channel Menu show API fallback
+            if (window.embedded_svc && window.embedded_svc.menu) {
+                // If it exposes standard toggle/show methods
+                console.log("Menu object found.");
+            }
+        }
+
+        function callHideMenu() {
+            console.log("Executing Channel Menu Hide...");
+            // Direct DOM manipulation or API call if exposed by fab.js
+        }
+    </script>
+
+    <script type='text/javascript' src='https://orgfarm-099fc90853.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js'></script>
+    <script type='text/javascript'>
+		var initESW = function(gslbBaseURL) {
+		    embedded_svc.menu.settings.scrt2BaseUrl = 'https://orgfarm-099fc90853.test1.my.pc-rnd.salesforce-scrt.com';
+		    embedded_svc.menu.snippetSettings = embedded_svc.menu.snippetSettings || {};
+		    embedded_svc.menu.snippetSettings.Live_Chat = {
+		        settings: {
+		            hideChatButtonOnLoad: true
+		        }
+		    };
+  		embedded_svc.menu.init(
+  			'https://orgfarm-099fc90853.test1.my.pc-rnd.salesforce.com',
+  			'https://d.la13-test1-uswest2-core4.pc-aws.salesforceliveagent.com/chat',
+  			gslbBaseURL,
+  			'00DSB00000c9EE1',
+  			'Channel_Menu'
+  		);
+		};
+
+        if (!window.embedded_svc || !window.embedded_svc.menu) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://orgfarm-099fc90853.test1.my.pc-rnd.salesforce.com/embeddedservice/menu/fab.min.js');
+            s.onload = function() {
+                initESW(null);
+            };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://orgfarm-099fc90853.test1.my.pc-rnd.salesforce.com');
+        }
+    </script>
+</body>
+</html>
